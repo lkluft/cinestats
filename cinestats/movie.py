@@ -19,6 +19,12 @@ class Movie:
     def __repr__(self):
         return "'{title}'".format(title=self.title)
 
+    def __lt__(self, other):
+        return self.datenum < other.datenum
+
+    def __eq__(self, other):
+        return self.datenum < other.datenum
+
     @property
     def datenum(self):
         """Return datenum representation of date."""
