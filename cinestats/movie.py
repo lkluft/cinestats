@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 """Provide datastructures to handel single movies as well as databases.
 """
-from matplotlib.dates import datestr2num
+from operator import itemgetter
+
+import matplotlib.pyplot as plt
+from matplotlib.dates import (DateFormatter, datestr2num)
 import numpy as np
 
 
@@ -53,3 +56,42 @@ class MovieDatabase(list):
 
         # Return actual MovieDatabase.
         return cls(movie_list)
+
+    def get_datenumlim(self):
+        """Return the start and end date of the database as datenum.
+
+        Returns:
+            float, float: Start date, end date
+        """
+        # Get the first and last movie of the list sorted by date.
+        firstlast = itemgetter(0, -1)(sorted(self))
+
+        # Return the datenum representation of both movies.
+        return map(lambda m: m.datenum, firstlast)
+
+    def plot_titles(self, ax=None, **kwargs):
+        """Plot number of movies seen against date.
+
+        Parameters:
+            ax (plt.AxesSubplot): Axes to plot in.
+            **kwargs: Additional keyword arguments are collected
+                and passed to `plt.annotate`.
+        """
+        # If no matplotlib axes is passed, get the latest.
+        if ax is None:
+            ax = plt.gca()
+
+        # Loop over all movies in the sorted database and ...
+        for n, movie in enumerate(sorted(self), 1):
+            # ... print their title against their position in the database.
+            ax.annotate(' ' + movie.title, xy=(movie.datenum, n), **kwargs)
+
+        # Date formatting for the x-axis.
+        ax.xaxis.set_major_formatter(DateFormatter("%b"))
+
+        # Axes limits have to be set as `plt.annotate` does not to this!
+        ax.set_xlim(self.get_datenumlim())
+        ax.set_ylim(bottom=0, top=n + 1)
+
+        ax.set_ylabel('Absolute frequency')
+        ax.grid(True)
