@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Provide datastructures to handel single movies as well as databases.
 """
+from matplotlib.dates import datestr2num
 import numpy as np
 
 
@@ -17,6 +18,11 @@ class Movie:
 
     def __repr__(self):
         return "'{title}'".format(title=self.title)
+
+    @property
+    def datenum(self):
+        """Return datenum representation of date."""
+        return datestr2num(self.date) if self.date is not None else None
 
 
 class MovieDatabase(list):
