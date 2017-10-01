@@ -36,7 +36,7 @@ class Movie:
 
 class MovieDatabase(list):
     @classmethod
-    def from__csv(cls, filename):
+    def from_csv(cls, filename):
         """Load a movie database from CSV file.
 
         Note:
