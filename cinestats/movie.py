@@ -139,8 +139,6 @@ class MovieDatabase(list):
         ax.xaxis.set_major_formatter(DateFormatter("%b"))
 
         # Axes limits have to be set as `plt.annotate` does not to this!
-        ax.set_xlim(self.get_datenumlim())
-        ax.set_ylim(bottom=0, top=n + 1)
+        ax.set_xbound(self.get_datenumlim())
+        ax.set_ybound(lower=0)
 
-        ax.set_ylabel('Absolute frequency')
-        ax.grid(True)
