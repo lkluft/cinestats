@@ -6,6 +6,7 @@ from operator import itemgetter
 
 import matplotlib.pyplot as plt
 from matplotlib.dates import (DateFormatter, datestr2num)
+import numpy as np
 
 
 __all__ = [
@@ -67,6 +68,41 @@ class MovieDatabase(list):
 
         # Return the datenum representation of both movies.
         return map(lambda m: m.datenum, firstlast)
+
+    def get_polyfit(self, deg=1):
+        """Perform a polynomial regression.
+
+        Parameters:
+            deg (int): Degree of the fitting polynomial.
+
+        Returns:
+            ndarray: Polynomial coefficients, highest power first.
+        """
+        number_of_films = np.arange(len(self))
+        datenums = np.array([m.datenum for m in self])
+
+        return np.polyfit(datenums, number_of_films, deg)
+
+    def plot_trend(self, num=50, deg=1, ax=None, **kwargs):
+        """Plot the linear trend of movies watched against time.
+
+        Parameters:
+            num (int): Number of sampling points.
+            deg (int): Degree of the fitting polynomial.
+            ax (plt.AxesSubplot): Axes to plot in.
+            **kwargs: Additional keyword arguments are collected
+                and passed to `plt.plot`.
+
+        Returns:
+            list[Line2D]: List of lines added.
+        """
+        if ax is None:
+            ax = plt.gca()
+
+        x = np.linspace(*self.get_datenumlim(), num)
+        y = np.polyval(self.get_polyfit(deg=deg), x)
+
+        return ax.plot(x, y, **kwargs)
 
     def plot_titles(self, ax=None, **kwargs):
         """Plot number of movies seen against date.
