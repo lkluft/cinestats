@@ -67,7 +67,7 @@ class MovieDatabase(list):
         firstlast = itemgetter(0, -1)(sorted(self))
 
         # Return the datenum representation of both movies.
-        return map(lambda m: m.datenum, firstlast)
+        return tuple(map(lambda m: m.datenum, firstlast))
 
     def get_polyfit(self, deg=1):
         """Perform a polynomial regression.
