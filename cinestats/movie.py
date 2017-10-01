@@ -2,6 +2,7 @@
 """Provide datastructures to handel single movies as well as databases.
 """
 import csv
+import time
 from operator import itemgetter
 
 import matplotlib.pyplot as plt
@@ -87,10 +88,11 @@ class MovieDatabase(list):
         # Perform a polynomial fit of number of movies against time.
         return np.polyfit(datenums, number_of_films, deg)
 
-    def plot_trend(self, num=50, deg=1, ax=None, **kwargs):
+    def plot_trend(self, end_date=None, num=50, deg=1, ax=None, **kwargs):
         """Plot the linear trend of movies watched against time.
 
         Parameters:
+            end_date (str): End date for extrapolation (default end of year).
             num (int): Number of sampling points.
             deg (int): Degree of the fitting polynomial.
             ax (plt.AxesSubplot): Axes to plot in.
@@ -105,7 +107,11 @@ class MovieDatabase(list):
             ax = plt.gca()
 
         # Create an time array within the start and end date of the database.
-        x = np.linspace(*self.get_datenumlim(), num)
+        start_date = self.get_datenumlim()[0]
+        if end_date is None:
+            # If no end date is given, extrapolate to end of the year.
+            end_date = '{}-12-31'.format(time.strftime('%Y'))
+        x = np.linspace(start_date, datestr2num(end_date), num)
 
         # Perform polynomial regression and calculate values to plot.
         y = np.polyval(self.get_polyfit(deg=deg), x)
