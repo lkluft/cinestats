@@ -142,3 +142,36 @@ class MovieDatabase(list):
         ax.set_xbound(self.get_datenumlim())
         ax.set_ybound(lower=0)
 
+    def plot_marker(self, marker='o', ax=None, **kwargs):
+        """Plot number of movies seen against date.
+
+        Parameters:
+            ax (plt.AxesSubplot): Axes to plot in.
+            marker (str): Marker to represent movies.
+            **kwargs: Additional keyword arguments are collected
+                and passed to `plt.plot`.
+        """
+        # If no matplotlib axes is passed, get the latest.
+        if ax is None:
+            ax = plt.gca()
+
+        # Create dummy array with the cumulative number of movies watched.
+        number_of_films = np.arange(len(self))
+
+        # Create array containing the datenum representation of dates.
+        datenums = np.array([m.datenum for m in self])
+
+        # Plot
+        ret = ax.plot(datenums, number_of_films,
+                      linestyle='none',
+                      marker=marker,
+                      **kwargs)
+
+        # Date formatting for the x-axis.
+        ax.xaxis.set_major_formatter(DateFormatter("%b"))
+
+        # Axes limits have to be set as `plt.annotate` does not to this!
+        ax.set_xbound(self.get_datenumlim())
+        ax.set_ybound(lower=0)
+
+        return ret
