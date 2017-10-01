@@ -78,9 +78,13 @@ class MovieDatabase(list):
         Returns:
             ndarray: Polynomial coefficients, highest power first.
         """
+        # Create dummy array with the cumulative number of movies watched.
         number_of_films = np.arange(len(self))
+
+        # Create array containing the datenum representation of dates.
         datenums = np.array([m.datenum for m in self])
 
+        # Perform a polynomial fit of number of movies against time.
         return np.polyfit(datenums, number_of_films, deg)
 
     def plot_trend(self, num=50, deg=1, ax=None, **kwargs):
@@ -96,10 +100,14 @@ class MovieDatabase(list):
         Returns:
             list[Line2D]: List of lines added.
         """
+        # If no matplotlib axes is passed, get the latest.
         if ax is None:
             ax = plt.gca()
 
+        # Create an time array within the start and end date of the database.
         x = np.linspace(*self.get_datenumlim(), num)
+
+        # Perform polynomial regression and calculate values to plot.
         y = np.polyval(self.get_polyfit(deg=deg), x)
 
         return ax.plot(x, y, **kwargs)
