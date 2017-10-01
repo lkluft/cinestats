@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Provide datastructures to handel single movies as well as databases.
 """
+import csv
 from operator import itemgetter
 
 import matplotlib.pyplot as plt
 from matplotlib.dates import (DateFormatter, datestr2num)
-import numpy as np
 
 
 __all__ = [
@@ -39,20 +39,19 @@ class MovieDatabase(list):
     def from__csv(cls, filename):
         """Load a movie database from CSV file.
 
+        Note:
+            If the movie title contains a comma, the title has to be quoted:
+                2016-02-05,"Hail, Caesar!"
+
         Parameters:
             filename (str): Path to CSV file.
         """
-        # Read the full CSV file into a structured ndarray.
-        database_array = np.genfromtxt(
-            fname=filename,
-            delimiter=',',
-            names=True,  # expect field names in first row.
-            dtype=None,  # automatically determine dtype of fields.
-        )
-
-        # Create Movie object from every row in the array (line in CSV).
-        movie_list = [Movie(title.decode(), date.decode()) for title, date
-                      in zip(database_array['movie'], database_array['date'])]
+        with open(filename, 'r') as csvfile:
+            # Parse the CSV file into a dictionary (column names as keys).
+            reader = csv.DictReader(csvfile)
+            # Create Movie object from every entry in the CSV reader.
+            movie_list = [Movie(title=line['movie'], date=line['date'])
+                          for line in reader]
 
         # Return actual MovieDatabase.
         return cls(movie_list)
