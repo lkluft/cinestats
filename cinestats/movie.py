@@ -89,7 +89,7 @@ class MovieDatabase(list):
         number_of_films = np.arange(len(self))
 
         # Create array containing the datenum representation of dates.
-        datenums = np.array([m.datenum for m in self])
+        datenums = np.array([m.datenum for m in sorted(self)])
 
         # Perform a polynomial fit of number of movies against time.
         return np.polyfit(datenums, number_of_films, deg)
@@ -169,7 +169,7 @@ class MovieDatabase(list):
         number_of_films = np.arange(len(self))
 
         # Create array containing the datenum representation of dates.
-        datenums = np.array([m.datenum for m in self])
+        datenums = np.array([m.datenum for m in sorted(self)])
 
         # Plot
         ret = ax.plot(datenums, number_of_films,
