@@ -37,5 +37,8 @@ setup(
         'nose',
     ],
     setup_requires=['pytest-runner'],
-    tests_require=['pytest'],
+    tests_require=[
+        'flake8',
+        'pytest',
+    ],
 )
