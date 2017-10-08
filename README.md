@@ -20,7 +20,7 @@ Cinestats is build around the `MovieDatabase` class. It combines all
 functionality to work on sets of movies.
 ```python
 import matplotlib.pyplot as plt
-from cinestats impot MovieDatabase
+from cinestats import MovieDatabase
 
 
 mdb = MovieDatabase.from_csv('cinestats/data/example.csv')
