@@ -13,6 +13,11 @@ if not sys.version_info >= (3, 5, 1):
 versionfile = join(dirname(__file__), 'cinestats', 'VERSION')
 __version__ = open(versionfile).read().strip()
 
+test_deps = [
+    'flake8',
+    'pytest',
+]
+
 setup(
     name='cinestats',
     author='Lukas Kluft',
@@ -34,11 +39,10 @@ setup(
     install_requires=[
         'matplotlib',
         'numpy',
-        'nose',
     ],
     setup_requires=['pytest-runner'],
-    tests_require=[
-        'flake8',
-        'pytest',
-    ],
+    extras_require = {
+        'tests': test_deps,
+        },
+    tests_require=test_deps,
 )
