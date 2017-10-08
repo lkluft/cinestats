@@ -32,6 +32,9 @@ class Movie:
         # Movie objects are equal when title **and** date agree.
         return self.title == other.title and self.date == other.date
 
+    def __hash__(self):
+        """Override the default hash behavior."""
+        return hash(tuple((self.title, self.date)))
 
     @property
     def datenum(self):
@@ -90,6 +93,10 @@ class MovieDatabase(list):
 
         # Perform a polynomial fit of number of movies against time.
         return np.polyfit(datenums, number_of_films, deg)
+
+    def remove_duplicates(self):
+        """Remove duplicates from database."""
+        super().__init__(set(self))
 
     def plot_trend(self, end_date=None, num=50, deg=1, ax=None, **kwargs):
         """Plot the linear trend of movies watched against time.
