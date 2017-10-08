@@ -64,6 +64,21 @@ class MovieDatabase(list):
         # Return actual MovieDatabase.
         return cls(movie_list)
 
+    def to_csv(self, filename, fields=('date', 'title')):
+        """Write a movie database to CSV file.
+
+        Parameters:
+            filename (str): Path to CSV file.
+            fields (seq): Names of fields to store (default is date and title).
+        """
+        with open(filename, 'w') as csvfile:
+            writer = csv.writer(csvfile, quotechar='"',
+                                quoting=csv.QUOTE_MINIMAL)
+
+            writer.writerow(fields)
+            for movie in self:
+                writer.writerow([getattr(movie, field) for field in fields])
+
     def get_datenumlim(self):
         """Return the start and end date of the database as datenum.
 
