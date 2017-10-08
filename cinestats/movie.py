@@ -25,10 +25,13 @@ class Movie:
         return "'{title}'".format(title=self.title)
 
     def __lt__(self, other):
+        # Compare Movie object using their numerical date representation.
         return self.datenum < other.datenum
 
     def __eq__(self, other):
-        return self.datenum < other.datenum
+        # Movie objects are equal when title **and** date agree.
+        return self.title == other.title and self.date == other.date
+
 
     @property
     def datenum(self):
