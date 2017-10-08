@@ -41,7 +41,7 @@ setup(
         'numpy',
     ],
     setup_requires=['pytest-runner'],
-    extras_require = {
+    extras_require={
         'tests': test_deps,
         },
     tests_require=test_deps,
