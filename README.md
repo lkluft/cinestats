@@ -1,4 +1,4 @@
-# cinestats [![Build Status](https://travis-ci.org/lkluft/cinestats.svg?branch=master)](https://travis-ci.org/lkluft/cinestats)
+# cinestats ![Test](https://github.com/lkluft/cinestats/workflows/Test/badge.svg)
 Analyse and visualise statistics around movies and cinema.
 
 ## Installation and requirements
